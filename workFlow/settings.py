@@ -27,17 +27,22 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CRISPY_TEMPLATE_PACK = 'uni_form'
+
 
 # Application definition
 
+
 INSTALLED_APPS = [
-    "myapp",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'myapp',
+    'crispy_forms',
+
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

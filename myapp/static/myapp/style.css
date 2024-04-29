@@ -47,7 +47,7 @@ body{
 #loginForm input{
     display: block;
     height: 50px;
-    width: 100%;
+    width:100%;
     background-color: rgba(54, 52, 52, 0.07);
     border-radius: 3px;
     padding: 0 10px;
@@ -110,7 +110,7 @@ body{
 #signupForm input{
     display: block;
     height: 50px;
-    width: 50%;
+    width:50%;
     background-color: rgba(54, 52, 52, 0.07);
     border-radius: 3px;
     padding: 0 10px;

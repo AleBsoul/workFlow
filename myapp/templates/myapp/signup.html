@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>workFlow</title>
- 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <!--Stylesheet-->
-    {%load static%}
-    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
-
-</head>
-<body>
-    <img type="button" id="icon" src="{% static "images/workFlow.png" %}" alt="Logo">
-    <form id="signupForm"method="post">
+{%extends "base.html"%}
+{% block content %}
+<form id="signupForm" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">sign up</button>
     <a type="button" id="signUp" href="/login">login</a>
-
 </form>
-
-</body>
-</html>
+{%endblock%}
