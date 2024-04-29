@@ -13,18 +13,13 @@
 </head>
 <body>
     <img type="button" id="icon" src="{% static "images/workFlow.png" %}" alt="Logo">
-    <form>
-        <h3>Login Here</h3>
+    <form id="signupForm"method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">sign up</button>
+    <a type="button" id="signUp" href="/login">login</a>
 
-        <label for="username">Username</label>
-        <input type="text"  id="username">
+</form>
 
-        <label for="password">Password</label>
-        <input type="password"  id="password">
-
-        <button>Log In</button>
-        <a id="signUp"href="">Sign up</a>
-       
-    </form>
 </body>
 </html>
