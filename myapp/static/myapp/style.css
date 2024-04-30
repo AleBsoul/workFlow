@@ -1,20 +1,14 @@
-*,
-*:before,
-*:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
+body {
     background-color: #ffffff;
 }
-#loginForm{
-    height: 60%;
-    width: 30%;
+
+#loginForm, #signupForm {
+    height: 70vh;
+    width: 55vh;
     background-color: rgba(66, 219, 94, 0.13);
     position: absolute;
     transform: translate(-50%,-50%);
-    top: 50%;
+    top: 55%;
     left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
@@ -23,31 +17,32 @@ body{
     padding: 50px 35px;
 }
 
-
-#loginForm *{
-    font-family: 'Poppins',sans-serif;
+#loginForm input, #signupForm input, #loginForm button, #signupForm button, #loginForm label, #signupForm label, #loginForm a, #signupForm a, #signupForm select {
+    font-family: 'Poppins', sans-serif;
     color: #1bb022;
     letter-spacing: 0.5px;
     outline: none;
     border: none;
 }
-#loginForm h3{
+
+#loginForm h3, #signupForm h3 {
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;
     text-align: center;
 }
 
-#loginForm label{
+#loginForm label, #signupForm label {
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
-#loginForm input{
+
+#loginForm input,select, #signupForm input {
     display: block;
-    height: 50px;
-    width:100%;
+    height: 6vh;
+    width: 100%;
     background-color: rgba(54, 52, 52, 0.07);
     border-radius: 3px;
     padding: 0 10px;
@@ -55,10 +50,12 @@ body{
     font-size: 14px;
     font-weight: 300;
 }
-#loginForm ::placeholder{
+
+#loginForm ::placeholder, #signupForm ::placeholder {
     color: #020202;
 }
-#loginForm button{
+
+#loginForm button, #signupForm button {
     margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
@@ -70,78 +67,81 @@ body{
     cursor: pointer;
 }
 
-#signupForm{
-    height: 60%;
-    width: 50%;
-    background-color: rgba(66, 219, 94, 0.13);
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
-}
-
-
-
-#signupForm *{
-    font-family: 'Poppins',sans-serif;
-    color: #1bb022;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
-}
-#signupForm h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
-}
-
-#signupForm label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-}
-#signupForm input{
-    display: block;
-    height: 50px;
-    width:50%;
-    background-color: rgba(54, 52, 52, 0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
-#signupForm ::placeholder{
-    color: #020202;
-}
-#signupForm button{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
+#icon {
+    width: 20vh;
+    color: green;
     cursor: pointer;
 }
 
-
-#signUp{
+#p{
     display: flex;
     justify-content: center;
     margin-top: 5%;
 }
 
-#icon{
-    width:200px;
-    transform: translateX(280%);
-    cursor: pointer;
+.nav-links {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 20px 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.nav-links li {
+    list-style: none;
+    margin: 0 12px;
+}
+
+.nav-links li a {
+    position: relative;
+    color: #333;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 6px 0;
+    text-decoration: none;
+}
+
+.nav-links li a:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: rgba(66, 219, 94, 0.762);
+    border-radius: 12px;
+    transition: all 0.4s ease;
+}
+
+.nav-links li a:hover:before {
+    width: 100%;
+}
+
+.nav-links li.center a:before {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-links li.upward a:before {
+    width: 100%;
+    bottom: -5px;
+    opacity: 0;
+}
+
+.nav-links li.upward a:hover:before {
+    bottom: 0px;
+    opacity: 1;
+}
+
+.nav-links li.forward a:before {
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease;
+}
+
+.nav-links li.forward a:hover:before {
+    transform: scaleX(1);
+    transform-origin: left;
 }

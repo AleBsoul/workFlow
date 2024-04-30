@@ -6,11 +6,22 @@ from django.shortcuts import redirect
 
 
 
+
+
+def intro(request):
+    return render(request, 'myapp/intro.html')
+
 def home(request):
-    return render(request, 'base.html')
+    return render(request, 'myapp/home.html')
 
 def signup(request):
-    form = SignUpForm()  # Creare un'istanza del form
+    form = SignUpForm()  # Creare un'istanza del form    
+    if request.method == 'POST':
+        data=request.POST.dict()
+        username = data.get('username')
+        password = data.get('password')
+        type = data.get('type')
+        print(data)
     return render(request, 'myapp/signup.html', {'form': form})
 
 def login(request):
@@ -18,4 +29,4 @@ def login(request):
     return render(request, 'myapp/login.html', {'form': form})
 
 def index(request):
-    return redirect("/home")
+    return redirect("/intro")
