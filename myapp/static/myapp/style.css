@@ -1,10 +1,12 @@
 body {
-    background-color: #ffffff;
+    background-image:url("img.jpg");
+    background-repeat: no-repeat;
+    background-size:cover;
 }
 
-#loginForm, #signupForm {
-    height: 70vh;
-    width: 55vh;
+#loginForm, #complSignupForm{
+    height: 60vh;
+    width: 30vw;
     background-color: rgba(66, 219, 94, 0.13);
     position: absolute;
     transform: translate(-50%,-50%);
@@ -17,7 +19,25 @@ body {
     padding: 50px 35px;
 }
 
-#loginForm input, #signupForm input, #loginForm button, #signupForm button, #loginForm label, #signupForm label, #loginForm a, #signupForm a, #signupForm select {
+#signupForm{
+    height: 75vh;
+    width: 40vw; 
+    background-color: rgba(66, 219, 94, 0.13);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 58%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+
+
+
+
+#loginForm >* :not(h3), #signupForm >* :not(h3), #complSignupForm >* :not(h3){
     font-family: 'Poppins', sans-serif;
     color: #1bb022;
     letter-spacing: 0.5px;
@@ -25,38 +45,40 @@ body {
     border: none;
 }
 
-#loginForm h3, #signupForm h3 {
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
+#loginForm h3, #signupForm h3, #complSignupForm h3{
     text-align: center;
 }
 
-#loginForm label, #signupForm label {
+#loginForm label, #signupForm label, #complSignupForm label{
     display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
+    margin-top: 3vh;
+    /* font-size: 16px;
+    font-weight: 500; */
 }
 
-#loginForm input,select, #signupForm input {
+#loginForm input, #signupForm input,select, #complSignupForm input, textarea{
     display: block;
     height: 6vh;
     width: 100%;
     background-color: rgba(54, 52, 52, 0.07);
     border-radius: 3px;
-    padding: 0 10px;
+    padding: 10px 10px;
     margin-top: 8px;
     font-size: 14px;
     font-weight: 300;
 }
 
-#loginForm ::placeholder, #signupForm ::placeholder {
+#complSignupForm textarea {
+    height:20vh;
+    resize: none;
+}
+
+#loginForm ::placeholder, #signupForm ::placeholder, #complSignupForm ::placeholder{
     color: #020202;
 }
 
-#loginForm button, #signupForm button {
-    margin-top: 50px;
+#loginForm button, #signupForm button, #complSignupForm button{
+    margin-top: 2vh;
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -69,8 +91,12 @@ body {
 
 #icon {
     width: 20vh;
-    color: green;
     cursor: pointer;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px ;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px ;
+
 }
 
 #p{
@@ -82,7 +108,7 @@ body {
 .nav-links {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: #ffffff87;
     padding: 20px 15px;
     border-radius: 12px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
@@ -95,7 +121,7 @@ body {
 
 .nav-links li a {
     position: relative;
-    color: #333;
+    color: #000000;
     font-size: 20px;
     font-weight: 500;
     padding: 6px 0;

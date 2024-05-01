@@ -1,0 +1,12 @@
+{%extends "base.html"%}
+
+{% block content %}
+<form id="complSignupForm" method="post">
+    {% csrf_token %}
+    <h3>Sign up</h3>
+    {{ form.as_p }}
+    <button type="submit">Sign up</button>    
+    <p id="p">Hai già un account? <a id="login" href="/login"> Login</a></p>
+</form>
+
+{%endblock%}
