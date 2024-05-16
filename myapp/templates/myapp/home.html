@@ -1,4 +1,28 @@
 {%extends "base.html"%}
-{% block content %}
+{% block nav_content %}
+    {% if user.tipo == 'datore' %}
+    <button id="">
+        <a href="/intro">Aggiungi offerta</a>
+    </button>
+    <button id="">
+        <a href="/intro">Le tue offerte</a>
+    </button>
+    <button id="">
+        <a href="/intro">Candidature</a>
+    </button>
+    <button id="">
+        <a href="/intro">Chat</a>
+    </button>
+    {% else %}
+    <button id="">
+        <a href="/intro">Le tue candidature</a>
+    </button>
+    <button id="">
+        <a href="/home">Home</a>
+    </button>
+    <button id="">
+        <a href="/intro">Chat</a>
+    </button>
+    {% endif %}
 
-{%endblock%}
+{% endblock %}

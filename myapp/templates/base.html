@@ -15,15 +15,22 @@
 
 </head>
 <body>
-    <ul class="nav-links">
-        <a href="/intro"><img type="button" id="icon" src="{% static "images/workFlow.png" %}" alt="Logo"></a>
-        <li class="center"><a href="/login">Accedi</a></li>
-        
-      </ul>
-    
-    
+     <div class="navbar">
+        <div class="left-nav">
+            <img type="button" id="icon" src="{% static "images/logo4.png" %}" alt="Logo" class="logo">
+        </div>
+        <div class="right-nav" id="right-nav">
+            <div id="uncollapsed">
+                {% block nav_content %}{% endblock%}
+                <button id="btn-logout">
+                    <a href="/intro">Log out</a>
+                </button>
+            </div>
+        </div>
+    </div>
     {% block content %}{% endblock%}
 </body>
+
 </html>
 
 

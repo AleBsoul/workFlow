@@ -8,5 +8,9 @@
     <button type="submit">log in</button>    
     <p id="p">Non hai un account? <a id="signUp" href="/signup"> Sign up</a>
 </form>
-
+{% if alert %}
+<script>
+    alert("utente non esistente")
+</script>
+{% endif %}
 {%endblock%}
