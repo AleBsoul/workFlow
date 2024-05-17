@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <title>workFlow</title>
- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
@@ -17,14 +18,19 @@
 <body>
      <div class="navbar">
         <div class="left-nav">
-            <img type="button" id="icon" src="{% static "images/logo4.png" %}" alt="Logo" class="logo">
+            <img type="button" id="icon" src="{% static "images/logo4.png" %}" alt="Logo" >
         </div>
         <div class="right-nav" id="right-nav">
             <div id="uncollapsed">
+                <button id="btn-admin">
+                    <a class="a" href="/admin">Admin</a>
+                </button>
                 {% block nav_content %}{% endblock%}
                 <button id="btn-logout">
-                    <a href="/intro">Log out</a>
+                    <a class="a-logout"href="/intro">Log out</a>
                 </button>
+
+                
             </div>
         </div>
     </div>

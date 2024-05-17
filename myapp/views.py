@@ -10,16 +10,17 @@ from django.contrib.auth import authenticate
 
 
 dati_utente={}
+utente=""
 
 def intro(request):
     return render(request, 'myapp/intro.html')
 
 def home(request):
-    return render(request, 'myapp/home.html')
+    return render(request, 'myapp/home.html', {'tipo':"candidato", "user":utente})
 
 def signup(request):
     global dati_utente
-    print(User.objects.all())
+    form = SignUpForm()
     if request.method == 'POST':
         data=request.POST.dict()
         if SignUpForm(request.POST).is_valid():
@@ -29,17 +30,23 @@ def signup(request):
             username = data.get('username')
             password = data.get('password')
             type = data.get('type')
-            try:
+
+            if User.objects.filter(username=username).exists():
+                return render(request, 'myapp/signup.html', {'form': form, 'alert': True})
+            
+            user = authenticate(username=username, password=password)
+            print(user)
+            if user is None:
                 dati_utente = {"nome":nome, "cognome":cognome,"email":email, "username":username, "password":password, "type":type}
                 if type == 'candidato':
                     form = Compl_Signup_Cand()
                 else:
                     form = Compl_Signup_Datore()
                 return render(request, 'myapp/complSignup.html', {'form': form , 'alert':False})
-            except:
-                form = SignUpForm()
-                return render(request, 'myapp/signup.html', {'form': form, "alert": True})
+            else:
+                return render(request, 'myapp/complSignup.html', {'form': form , 'alert':True})
 
+            
         elif Compl_Signup_Cand(request.POST).is_valid() or Compl_Signup_Datore(request.POST).is_valid():
             base_user = User.objects.create_user(username=dati_utente['username'], email=dati_utente['email'], password=dati_utente['password'], first_name=dati_utente['nome'], last_name=dati_utente['cognome'])
             dati_utente['competenze']=data.get('competenze')
@@ -50,9 +57,7 @@ def signup(request):
             utente.save() 
             
             return HttpResponse(f"Username: {utente.user.username}, Password: {utente.user.email}")
-
     else:
-        form = SignUpForm()  # Creare un'istanza del form    
         return render(request, 'myapp/signup.html', {'form': form , 'alert':False})
     
 def login(request):
@@ -65,13 +70,18 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 utente = Utente.objects.get(user=user)
-                print(utente)
-                return render(request, 'myapp/home.html', {'tipo':"candidato", "user":utente})
+                return redirect('/home')
             else:
                 return render(request, 'myapp/login.html', {'form': form, 'alert':True})
 
     else:
         return render(request, 'myapp/login.html', {'form': form, 'alert':False})
+
+
+
+def chat(request):
+    return render(request, 'myapp/chat.html', {"user": utente})
+
 
 def index(request):
     # Utente.objects.all().delete()
