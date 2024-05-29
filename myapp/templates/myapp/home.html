@@ -1,28 +1,75 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 {% block nav_content %}
-    {% if user.tipo == 'datore' %}
-    <button id="">
-        <a class="a" href="/intro">Aggiungi offerta</a>
-    </button>
-    <button id="">
-        <a class="a" href="/intro">Offerte</a>
-    </button>
-    <button id="">
-        <a class="a" href="/chat">Candidature</a>
-    </button>
-    <button id="">
-        <a class="a" href="/chat">Chat</a>
-    </button>
-    {% else %}
-    <button id="">
-        <a class="a" href="/intro">Candidature</a>
-    </button>
     <button id="">
         <a class="a" href="/home">Home</a>
     </button>
     <button id="">
-        <a class="a" href="/chat">Chat</a>
+        <a class="a" href="/chats">Chat</a>
     </button>
+    <button id="">
+        <a class="a" href="/candidature">Candidature</a>
+    </button>
+    {% if tipo == 'datore' %}
+        <button id="">
+            <a class="a" href="/addOfferta">Aggiungi offerta</a>
+        </button>
+    {% else %}
+        <button id="">
+            <a class="a" href="/preferiti">Preferiti</a>
+        </button>
     {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <table class="job-list">
+            <thead>
+                <tr>
+                    <th>Impiego</th>
+                    <th>Descrizione</th>
+                    <th>Stipendio</th>
+                    <th>Requisiti</th>
+                    <th>Località</th>
+                    <th>Data di necessità</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offerta in offerte %}
+                <tr>
+                    <td>{{ offerta.impiego }}</td>
+                    <td>{{ offerta.descrizione }}</td>
+                    <td>{{ offerta.stipendio }}</td>
+                    <td>{{ offerta.requisiti }}</td>
+                    <td>{{ offerta.luogo }}</td>
+                    <td>{{ offerta.data|date:"d/m/Y" }}</td>
+                    {% if tipo == 'candidato' %}
+                        <td>
+                            <!-- creare una lista con gli id delle candidature e controllare se questa offerta rientra in quelle -->
+                            <form action="{% url 'candidati' offerta.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="candidati">Candidati</button>
+                            </form>
+                            <form action="{% url 'favourite' offerta.id%}">
+                                <button class="star-button"><i  type = "submit" class="fa fa-star star-icon"></i></button>
+                            </form>
+                        </td>
+                    {% else %}
+                        <td>
+                            <form action="{% url 'cancella_offerta' offerta.id %}" method="delete">
+                                {% csrf_token %}
+                                <button type="submit" class="del">Elimina</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not offerte %}
+            <!-- Messaggio se non ci sono offerte -->
+            <div class="no-jobs">Nessuna offerta di lavoro disponibile al momento.</div>
+        {% endif %}
+    </div>
 
 {% endblock %}

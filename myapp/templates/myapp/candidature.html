@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block nav_content %}
+    <button id="">
+        <a class="a" href="/home">Home</a>
+    </button>
+    <button id="">
+        <a class="a" href="/chats">Chat</a>
+    </button>
+    <button id="">
+        <a class="a" href="/candidature">Candidature</a>
+    </button>
+    {% if tipo == 'datore' %}
+        <button id="">
+            <a class="a" href="/addOfferta">Aggiungi offerta</a>
+        </button>
+    {% else %}
+        <button id="">
+            <a class="a" href="/preferiti">Preferiti</a>
+        </button>
+    {% endif %}
+{% endblock %}
+
+{% block content %} 
+    <div class="container-cand">
+        <div class="candidature-list">
+            <!-- Loop per visualizzare le candidature -->
+            {% for candidatura in candidature %}
+                <div class="candidatura-item">
+                    <div class="header">
+                        <h2 class="job-title">{{ candidatura.id_offerta.impiego }}</h2>
+                        {% if candidatura.stato == 'in sospeso'%}
+                            <p class="status waiting">{{ candidatura.stato }}</p>
+                        {% else %}
+                            <p class="status accepted">{{ candidatura.stato }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="dati-candidatura">
+                        {% if tipo == 'datore' %}
+                            <p>Candidato: {{ candidatura.id_candidato.user.email }}</p>    
+                        {% else %}
+                            <p>Datore: {{ candidatura.id_offerta.id_datore.user.email }}</p>    
+                        {% endif %}
+                        <p>Descrizione del Lavoro: {{ candidatura.id_offerta.descrizione }}</p>
+                        <p>Requisiti: {{ candidatura.id_offerta.requisiti }}</p>  
+                        <p>Luogo: {{ candidatura.id_offerta.luogo }}</p>  
+                        <p>Data: {{ candidatura.id_offerta.data|date:"d/m/Y"  }}</p>    
+                    </div>
+                    <div class="actions">
+                        {% if tipo == 'candidato' %}
+                            <form action="{% url 'cancella_candidatura' candidatura.id %}" method="delete">
+                                <button class="rej-del-btn">Elimina</button> 
+                            </form>
+                        {% else %}
+                            <form action="{% url 'accetta_candidatura' candidatura.id %}" method="delete">
+                                <button class="accept-btn">Accetta</button>
+                            </form>
+                            
+                            <form action="{% url 'cancella_candidatura' candidatura.id %}" method="delete">
+                                <button class="rej-del-btn">Rifiuta</button>
+                            </form>
+                            
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% if candidature.count == 0 %}
+                <p class="no-candidatures">Nessuna candidatura trovata.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

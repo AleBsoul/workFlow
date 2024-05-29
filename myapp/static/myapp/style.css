@@ -1,8 +1,101 @@
+
 body {
-    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #e0f7e0;
+    height: 100vh;
+    color: #333;
 }
+
+/* alert messages */
+.alert {
+    margin-left:auto;
+    margin-right:auto;
+    max-width: 300px;  
+    font-size: 20px;  
+    font-weight: 600;
+    
+}
+
+.error{
+    background-color: #b59393;
+    color:rgb(184, 18, 18);
+}
+.success{
+    background-color: #adecae;
+    color:rgb(31, 150, 33);
+}
+
+
+
+
+/* ==========HOME========== */
+
+.container {
+    width: 90%;
+    max-width: 90vw;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    margin-top: 5%;
+}
+
+.job-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+.job-list th, .job-list td {
+    padding: 15px;
+    text-align: left;
+}
+.job-list th {
+    background-color: #f0fff0;
+    color: #4CAF50;
+    font-size: 18px;
+}
+.job-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.job-list tr:hover {
+    background-color: #d0ffd0;
+}
+
+.no-jobs {
+    text-align: center;
+    padding: 10px;
+    color: #888;
+}
+
+.candidati, .del, .modifica{
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.candidati:hover{
+    background-color: #1bb022;
+    color:#ffffff;
+}
+
+.modifica:hover{
+    background-color: #2e7cf1;
+    color:#ffffff;
+}
+
+.del:hover{
+    background-color: #b01b1b;
+    color:#ffffff;
+}
+
+
+/* =========INTRO========= */
 
 #section_intro{
     font-family:cursive;
@@ -10,7 +103,6 @@ body {
 }
 #container_intro {
     transform: translateY(5%);
-    /* margin-top:10%; */
     width: 75%;
     margin: auto;
     padding: 15px;
@@ -35,9 +127,9 @@ body {
     text-align: center;
 }
 
-/* ================================ */
+/* ================FORM================ */
 
-#loginForm, #complSignupForm,#signupForm {
+.form{
     height: 60vh;
     width: 30vw;
     background-color: rgba(66, 219, 94, 0.13);
@@ -54,7 +146,7 @@ body {
 }
 
 
-#loginForm >* :not(h3), #signupForm >* :not(h3), #complSignupForm >* :not(h3){
+.form >* :not(h3){
     font-family: 'Poppins', sans-serif;
     color: #1bb022;
     letter-spacing: 0.5px;
@@ -62,11 +154,11 @@ body {
     border: none;
 }
 
-#loginForm h3, #signupForm h3, #complSignupForm h3{
+.form h3{
     text-align: center;
 }
 
-#loginForm label, #signupForm label, #complSignupForm label{
+.form label{
     display: block;
     margin-top: 3vh;
     /* font-size: 16px;
@@ -76,7 +168,7 @@ body {
     font-weight: 500; */
 }
 
-#loginForm input, #signupForm input,select, #complSignupForm input{
+.form input, .form select{
     display: block;
     height: 6vh;
     width: 100%;
@@ -89,7 +181,7 @@ body {
     font-weight: 300;
 }
 
-#complSignupForm textarea {
+.form textarea {
     display: block;
     height: 15vh;
     width: 100%;
@@ -102,14 +194,11 @@ body {
     resize: none;
 }
 
-#loginForm ::placeholder, #signupForm ::placeholder, #complSignupForm ::placeholder{
+.form ::placeholder{
     color: #020202;
 }
 
-#loginForm button, #signupForm button, #complSignupForm button{
-    margin-top: 2vh;
-}
-#loginForm button, #signupForm button, #complSignupForm button{
+.form button{
     margin-top: 2vh;
     width: 100%;
     background-color: #ffffff;
@@ -242,18 +331,37 @@ body {
 
 /* ======chat====== */
 
-.chat-list {
-    margin: 20px 0;
-    width: fit-content;
-    margin: auto;
-    overflow: hidden;
+@keyframes toLeft{
+    0% {
+        transform: translateX(100vw);
+    }
+    50%{
+        transform: translateX(50vw);
+    }
+    100% {
+        transform: translateX(0vw);
+    }
 }
-.chat {
-    background: #fff;
-    margin: 10px 0;
-    padding: 15px;
+
+.chat-list {
+    display:grid;
+    flex-direction: row;
+    position: relative;
+    padding:10px;
+    margin-top:10px;
+    width: 50%;
+    margin-left:25%;
+    overflow: hidden;
     border: #ddd 1px solid;
     border-radius: 5px;
+    transition: all ease-out 0.5s;
+}
+
+.chat {
+    background: #fff;
+    border-radius: 5px;
+    border: #ddd 1px solid;
+    padding: 15px;
 }
 .chat h2 {
     margin: 0;
@@ -269,3 +377,131 @@ body {
     transition:all 0.2s linear
 }
 
+.icon-button {
+    outline: 0;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+
+/* ======STAR ICON======= */
+.star-icon {
+    cursor: pointer;
+    color: grey;
+}
+.star-icon.clicked {
+    color: gold;
+}
+
+.star-button{
+    background-color: white;
+    border:none;
+}
+
+
+/* ======CANDIDATURE====== */
+
+.container-cand {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.candidature-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.candidatura-item {
+    width: 80%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.job-title {
+    font-size: 20px;
+    color: #007bff;
+    margin: 0;
+}
+
+.status {
+    font-size: 14px;
+    
+}
+
+.waiting{
+    color: gold;
+}
+
+.accepted{
+    color: #28a745;
+}
+.dati-candidatura{
+    margin-top: 20px;
+    color: #333;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.accept-btn{
+    background-color: #2dbd22;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.accept-btn:hover {
+    background-color: #76e22e;
+}
+
+.rej-del-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rej-del-btn:hover {
+    background-color: #c82333;
+}
+
+.no-candidatures {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+}

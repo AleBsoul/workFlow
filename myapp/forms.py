@@ -24,3 +24,14 @@ class Compl_Signup_Cand(forms.Form):
 
 class Compl_Signup_Datore(forms.Form):
     azienda = forms.CharField(max_length=30, label="azienda")
+
+
+class formOfferta(forms.Form):
+    impiego = forms.CharField(max_length=100, label="impiego")
+    luogo = forms.CharField(max_length=100, label="luogo")
+    stipendio = forms.CharField(max_length=100, label="stipendio")
+    data = forms.DateField(widget=forms.DateInput(attrs={   
+        'type': 'date',
+    }),label="data")
+    descrizione = forms.CharField(max_length=100, widget=forms.Textarea, label="descrizione")
+    requisiti = forms.CharField(max_length=100, widget=forms.Textarea, label="requisiti")

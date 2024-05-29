@@ -19,12 +19,19 @@ from django.urls import path, include
 from myapp import views
 
 urlpatterns = [
-    path('', views.index),
-    path('intro/', views.intro),
-    path('home/', views.home),
-    path('signup/', views.signup),
-    path('login/', views.login),
-    path('chat/', views.chat),
-    path('home/', views.home),
-    path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('intro/', views.intro, name='intro'),
+    path('home/', views.home, name='home'),
+    path('candidati/<int:offerta_id>/', views.candidati, name='candidati'),
+    path('favourite/<int:offerta_id>/', views.favourite, name='favourite'),
+    path('cancella_offerta/<int:offerta_id>/', views.cancella_offerta, name='cancella_offerta'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('chats/', views.chat, name='chat'),
+    path('addOfferta/', views.addOfferta, name='addOfferta'),
+    path('logout/', views.logout, name='logout'),
+    path('candidature/', views.candidature, name='candidature'),
+    path('accetta_candidatura/<int:cand_id>/', views.accetta_candidatura, name='accetta_candidatura'),
+    path('cancella_candidatura/<int:cand_id>/', views.cancella_candidatura, name='cancella_candidatura'),
+    path('admin/', admin.site.urls, name='admin'),
 ]
