@@ -248,6 +248,22 @@ def preferiti(request):
             return render(request, 'myapp/preferiti.html',  {'tipo':utente.tipo, 'offerte': favs, 'candidature':candidature,'favs':favs, 'id_cands': id_cands})
     else:
         return redirect("login")
+    
+def chat(request, cand_id):
+    if request.session.get('username'):
+        username = request.session['username']
+        user = User.objects.get(username=username)
+        utente = Utente.objects.get(user=user)
+        candidatura = Candidatura.objects.get(id=cand_id)
+        if utente.tipo == 'candidato':
+            interlocutore = candidatura.id_offerta.id_datore.user.first_name+" "+candidatura.id_offerta.id_datore.user.last_name
+        else:
+            interlocutore = candidatura.id_candidato.user.first_name+" "+candidatura.id_candidato.user.last_name
+        print(interlocutore)
+        return render(request, "myapp/chat.html",{'interlocutore':interlocutore})
+
+    else:
+        return redirect("login")
 
 def index(request):
     # Utente.objects.all().delete()

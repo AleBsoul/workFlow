@@ -8,6 +8,11 @@ body {
     color: #333;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
+
 /* alert messages */
 .alert {
     margin-left:auto;
@@ -32,13 +37,20 @@ body {
 
 /* ==========HOME========== */
 
+.job-list thead{
+    position: sticky;
+    top: 0;
+}
+
 .container {
     width: 90%;
     max-width: 90vw;
+    max-height:70vh;
     background-color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     margin-top: 5%;
+    overflow-y:scroll;
 }
 
 .job-list {
@@ -132,7 +144,7 @@ body {
     width: 30vw;
     background-color: rgba(66, 219, 94, 0.13);
     position: absolute;
-    transform: translate(-50%,-50%);
+    transform: translateX(-50%) translateY(15%);
     top: 55%;
     left: 50%;
     border-radius: 10px;
@@ -214,7 +226,7 @@ body {
     margin-top: 5%;
 }
 
-.navbar{
+.navbar {
     display: flex;
     flex-direction: row;
     height: 14vh;
@@ -223,7 +235,15 @@ body {
     align-items: center; 
     justify-content: space-between; 
     background-color: #baffa9; 
-    position:relative;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+}
+
+.block-content{
+    transform: translateY(15vh);
 }
 
 .right-nav{
@@ -328,71 +348,98 @@ body {
 
 
 /* ======chat====== */
-
-@keyframes toLeft{
-    0% {
-        transform: translateX(100vw);
-    }
-    50%{
-        transform: translateX(50vw);
-    }
-    100% {
-        transform: translateX(0vw);
-    }
-}
-
-.chat-list {
-    display:grid;
-    flex-direction: row;
-    position: relative;
-    padding:10px;
-    margin-top:10px;
-    width: 50%;
-    margin-left:25%;
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    height: 60vh; 
+    background: #baffa997;
+    border-radius: 10px;
     overflow: hidden;
-    border: #ddd 1px solid;
-    border-radius: 5px;
-    transition: all ease-out 0.5s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 10%;
+    margin-left: 30%;
 }
 
-.chat {
-    background: #fff;
-    border-radius: 5px;
-    border: #ddd 1px solid;
-    padding: 15px;
-}
-.chat h2 {
-    margin: 0;
-    font-size: 20px;
-    color: #333;
-}
-.chat p {
-    color: #666;
-}
-.chat:hover{
-    border-color: rgba(0, 0, 0, 0.2);
-    background: #baffa9;
-    transition:all 0.2s linear
+#chat-header {
+    padding: 20px;
+    background: #5ba1f7;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
-.icon-button {
-    outline: 0;
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    width: 32px;
-    height: 32px;
+#message-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+#chat-input {
+    display: flex;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#chat-input input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
     border: none;
-    background: 0;
-    padding: 0;
+    border-radius: 20px;
+    margin-right: 10px;
+    outline: none;
+    width:80%;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#chat-input button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
+    background-color: #5ba1f7;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+#chat-input button:hover {
+    background-color: #0072ff;
+}
+
+#chat-form{
+    width:100%;
+}
+
+.chat-message {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    align-self: flex-start;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.chat-message.user {
+    background-color: rgba(0, 198, 255, 0.8);
+    color: white;
+    align-self: flex-end;
 }
 
 
 /* ======STAR ICON======= */
 
 .star-button{
-    position:absolute;
     left: 80%; 
     background-color: rgba(255, 255, 255, 0);
     border:none;
@@ -407,11 +454,13 @@ body {
 }
 
 /* ======CANDIDATURE====== */
+
 .container-cand {
     max-width: 800px;
     margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
 }
-
 
 .candidature-list {
     display: flex;
@@ -420,68 +469,85 @@ body {
 }
 
 .candidatura-item {
-    width: 80%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border-radius: 15px;
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -8px -8px 15px rgba(255, 255, 255, 0.7);
     padding: 20px;
     margin-bottom: 20px;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .candidatura-item:hover {
-    transform: scale(1.02);
+    transform: translateY(-10px);
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.2), -8px -8px 20px rgba(255, 255, 255, 0.9);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
 
 .job-title {
-    font-size: 24px;
+    font-size: 26px;
     color: #007bff;
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
 }
 
 .status {
     font-size: 14px;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 5px 10px;
+    border-radius: 5px;
     text-transform: uppercase;
     font-family: 'Roboto', sans-serif;
 }
 
 .waiting {
-    color: #ffc107;
+    background-color: #ffc107;
+    color: #fff;
 }
 
 .accepted {
-    color: #28a745;
+    background-color: #28a745;
+    color: #fff;
 }
 
 .dati-candidatura {
     color: #495057;
     font-family: 'Lora', serif;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
 .actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 10px;
     margin-top: 20px;
+}
+
+.chat-btn {
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chat-btn:hover {
+    color: #007bff;
 }
 
 .accept-btn, .rej-del-btn {
     font-size: 14px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Roboto', sans-serif;

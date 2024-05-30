@@ -24,7 +24,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('candidati/<int:offerta_id>/', views.candidati, name='candidati'),
     path('candidati_2/<int:offerta_id>/', views.candidati_2, name='candidati_2'),
-
+    path('chat/<int:cand_id>/', views.chat, name='chat'),
     path('favourite/<int:offerta_id>/', views.favourite, name='favourite'),
     path('favourite_2/<int:offerta_id>/', views.favourite_2, name='favourite_2'),
     path('cancella_offerta/<int:offerta_id>/', views.cancella_offerta, name='cancella_offerta'),

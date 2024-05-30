@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block navcontent %}
+    {% if tipo == 'datore' %}
+        <button id="">
+            <a class="a" href="/addOfferta">Aggiungi offerta</a>
+        </button>
+    {% elif tipo == 'candidato' %}
+        <button id="">
+            <a class="a" href="/preferiti">Preferiti</a>
+        </button>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="chat-container">
+        <div id="chat-header">{{ interlocutore }}</div>
+        <div id="message-container">
+            <div class="chat-message">
+                buogiorno
+            </div>
+            <div class="chat-message user">
+                Buongiorno, piacere di conoscerla
+            </div>
+        </div>
+        <div id="chat-input">
+            <form id="chat-form" action>
+                <input type="text" id="message-input" placeholder="Scrivi un messaggio..." />
+                <button type="submit">Invia</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

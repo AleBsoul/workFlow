@@ -1,58 +1,77 @@
 {% extends "base.html" %}
 
+{% block navcontent %}
+    {% if tipo == 'datore' %}
+        <button id="">
+            <a class="a" href="/addOfferta">Aggiungi offerta</a>
+        </button>
+    {% elif tipo == 'candidato' %}
+        <button id="">
+            <a class="a" href="/preferiti">Preferiti</a>
+        </button>
+    {% endif %}
+{% endblock %}
+
+
 {% block content %}
     <div class="container-cand">
-
         <div class="candidature-list">
             {% for candidatura in candidature %}
-        <div class="candidatura-item">
-            <div class="header">
-                <h2 class="job-title">{{ candidatura.id_offerta.impiego }}</h2>
-                {% if candidatura.stato == 'in sospeso' %}
-                    <p class="status waiting">In Sospeso</p>
-                {% else %}
-                    <p class="status accepted">Accettata</p>
-                {% endif %}
-            </div>
-            <div class="dati-candidatura">
-                {% if tipo == 'datore' %}
-                    <p><strong>Candidato:</strong> {{ candidatura.id_candidato.user.email }}</p>
-                    <p><strong>Competenze:</strong> {{ candidatura.id_candidato.competenze }}</p>
-                    <p><strong>Residenza:</strong> {{ candidatura.id_candidato.residenza }}</p>
-                {% else %}
-                    <p><strong>Datore:</strong> {{ candidatura.id_offerta.id_datore.user.email }}</p>
-                    <p><strong>Descrizione:</strong> {{ candidatura.id_offerta.descrizione }}</p>
-                    <p><strong>Requisiti:</strong> {{ candidatura.id_offerta.requisiti }}</p>
-                    <p><strong>Luogo:</strong> {{ candidatura.id_offerta.luogo }}</p>
-                    <p><strong>Data:</strong> {{ candidatura.id_offerta.data|date:"d/m/Y" }}</p>
-                {% endif %}
-            </div>
-            <div class="actions">
-                {% if tipo == 'candidato' %}
+            <div class="candidatura-item">
+                <div class="header">
+                    <h2 class="job-title">{{ candidatura.id_offerta.impiego }}</h2>
+                    {% if candidatura.stato == 'in sospeso' %}
+                        <p class="status waiting">In Sospeso</p>
+                    {% else %}
+                        <p class="status accepted">Accettata</p>
+                    {% endif %}
+                </div>
+                <div class="dati-candidatura">
+                    {% if tipo == 'datore' %}
+                        <p><strong>Candidato:</strong> {{ candidatura.id_candidato.user.email }}</p>
+                        <p><strong>Competenze:</strong> {{ candidatura.id_candidato.competenze }}</p>
+                        <p><strong>Residenza:</strong> {{ candidatura.id_candidato.residenza }}</p>
+                    {% else %}
+                        <p><strong>Datore:</strong> {{ candidatura.id_offerta.id_datore.user.email }}</p>
+                        <p><strong>Descrizione:</strong> {{ candidatura.id_offerta.descrizione }}</p>
+                        <p><strong>Requisiti:</strong> {{ candidatura.id_offerta.requisiti }}</p>
+                        <p><strong>Luogo:</strong> {{ candidatura.id_offerta.luogo }}</p>
+                        <p><strong>Data:</strong> {{ candidatura.id_offerta.data|date:"d/m/Y" }}</p>
+                    {% endif %}
+                </div>
+                <div class="actions">
+                    {% if tipo == 'candidato' %}
                     <form action="{% url 'cancella_candidatura' candidatura.id %}" method="post">
                         {% csrf_token %}
                         <button class="rej-del-btn">Elimina</button>
                     </form>
-                {% else %}
-                    {% if candidatura.stato != 'accettata' %}
-                        <form action="{% url 'accetta_candidatura' candidatura.id %}" method="post">
+                    {% else %}
+                        {% if candidatura.stato != 'accettata' %}
+                            <form action="{% url 'accetta_candidatura' candidatura.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="accept-btn">Accetta</button>
+                            </form>
+                        {% endif %}
+                        <form action="{% url 'cancella_candidatura' candidatura.id %}" method="post">
                             {% csrf_token %}
-                            <button class="accept-btn">Accetta</button>
+                            <button class="rej-del-btn">Rifiuta</button>
                         </form>
                     {% endif %}
-                    <form action="{% url 'cancella_candidatura' candidatura.id %}" method="post">
-                        {% csrf_token %}
-                        <button class="rej-del-btn">Rifiuta</button>
-                    </form>
-                {% endif %}
-                
+                    <!-- icona chat -->
+                    {% if  candidatura.stato == 'accettata'%}
+                        <form action="{% url 'chat' candidatura.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="chat-btn" type="submit"><i class="fa-solid fa-comments"></i></button>
+                        </form>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        {% endfor %}
-        {% if candidature.count == 0 %}
+            {% endfor %}
+            {% if candidature.count == 0 %}
             <p class="no-candidatures">Nessuna candidatura trovata.</p>
-        {% endif %}
+            {% endif %}
         </div>
     </div>
+
 {% endblock %}
 
