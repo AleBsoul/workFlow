@@ -4,27 +4,19 @@
         <a class="a" href="/home">Home</a>
     </button>
     <button id="">
-        <a class="a" href="/chats">Chat</a>
+        <a class="a" href="/candidature">Candidature</a>
     </button>
     {% if tipo == 'datore' %}
         <button id="">
             <a class="a" href="/addOfferta">Aggiungi offerta</a>
         </button>
-        <button id="">
-            <a class="a" href="/">Offerte</a>
-        </button>
-        <button id="">
-            <a class="a" href="/">Candidature</a>
-        </button>
     {% else %}
-        <button id="">
-            <a class="a" href="/">Candidature</a>
-        </button>
         <button id="">
             <a class="a" href="/preferiti">Preferiti</a>
         </button>
     {% endif %}
 {% endblock %}
+
 
 
 {% block content %}

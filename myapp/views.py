@@ -19,17 +19,41 @@ def home(request):
         utente = Utente.objects.get(user=user)
         if utente.tipo=='candidato':
             favs = Preferiti.objects.filter(id_candidato=utente)
-            print(favs)
             offerte = Offerta.objects.all()
             candidature = Candidatura.objects.filter(id_candidato=utente)
-            print(candidature)
-            return render(request, 'myapp/home.html', {'tipo':utente.tipo, 'offerte': offerte, 'candidature':candidature,'favs':favs})
+            id_cands = []
+            for cand in candidature:
+                for offerta in offerte:
+                    if offerta.id == cand.id_offerta.id:
+                        id_cands.append(cand.id_offerta.id)
+
+            id_favs = []
+            for fav in favs:
+                for offerta in offerte:
+                    if offerta.id == fav.id_offerta.id:
+                        id_favs.append(fav.id_offerta.id)
+            return render(request, 'myapp/home.html', {'tipo':utente.tipo, 'offerte': offerte, 'candidature':candidature,'favs':favs, 'id_cands': id_cands, 'id_favs':id_favs})
         else:
             offerte = Offerta.objects.filter(id_datore=utente.id) 
             return render(request, 'myapp/home.html', {'tipo':utente.tipo, 'offerte': offerte})
     else:
         return redirect("login")
 
+def favourite_2(request, offerta_id):
+    if request.session.get('username'):
+        username = request.session['username']
+        user = User.objects.get(username=username)
+        utente = Utente.objects.get(user=user)
+        offerta = Offerta.objects.get(id=offerta_id)
+        if Preferiti.objects.filter(id_candidato=utente, id_offerta=offerta).exists():
+            Preferiti.objects.filter(id_candidato=utente, id_offerta=offerta).delete()
+            return redirect("preferiti")
+        else:
+            fav = Preferiti(id_candidato=utente, id_offerta=offerta)
+            fav.save()
+            return redirect("preferiti")
+    else:
+        return redirect("login")
 
 def favourite(request, offerta_id):
     if request.session.get('username'):
@@ -145,6 +169,21 @@ def cancella_offerta(request, offerta_id):
     else:
         return redirect("login")
 
+def candidati_2(request, offerta_id):
+    if request.session.get('username'):
+        username = request.session['username']
+        user = User.objects.get(username=username)
+        utente = Utente.objects.get(user=user)
+        offerta = Offerta.objects.get(id=offerta_id)
+        if Candidatura.objects.filter(id_candidato=utente, id_offerta=offerta).exists():
+            Candidatura.objects.filter(id_candidato=utente, id_offerta=offerta).delete()
+        else:
+            candidatura= Candidatura(id_candidato=utente, id_offerta=offerta)
+            candidatura.save()
+        return redirect("preferiti")
+
+    else:
+        return redirect("login")
 
 def candidati(request, offerta_id):
     if request.session.get('username'):
@@ -179,7 +218,6 @@ def accetta_candidatura(request, cand_id):
     if request.session.get('username'):
         cand = Candidatura.objects.get(id=cand_id)
         cand.stato="accettata"
-        print(cand.stato)
         cand.save()
         return redirect("candidature")
     else:
@@ -194,20 +232,20 @@ def cancella_candidatura(request, cand_id):
         return redirect("login")
 
 
-def chat(request):
+def preferiti(request):
     if request.session.get('username'):
         username = request.session['username']
         user = User.objects.get(username=username)
         utente = Utente.objects.get(user=user)
-        chats = [
-                {"nome": "prova"},
-                {"nome": "prova2"}
-            ]
-        if request.method == 'GET':
-            return render(request, 'myapp/chats.html', {"tipo":utente.tipo,"chats": chats, "open":False})
-        else:
-            
-            return render(request, 'myapp/chats.html', {"tipo":utente.tipo,"chats": chats, "open":True})
+        if utente.tipo=='candidato':
+            favs = Preferiti.objects.filter(id_candidato=utente)
+            candidature = Candidatura.objects.filter(id_candidato=utente)
+            id_cands = []
+            for cand in candidature:
+                for fav in favs:
+                    if fav.id_offerta.id == cand.id_offerta.id:
+                        id_cands.append(cand.id_offerta.id)
+            return render(request, 'myapp/preferiti.html',  {'tipo':utente.tipo, 'offerte': favs, 'candidature':candidature,'favs':favs, 'id_cands': id_cands})
     else:
         return redirect("login")
 

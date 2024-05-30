@@ -67,7 +67,7 @@ body {
     color: #888;
 }
 
-.candidati, .del, .modifica{
+.candidati, .del{
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -84,10 +84,6 @@ body {
     color:#ffffff;
 }
 
-.modifica:hover{
-    background-color: #2e7cf1;
-    color:#ffffff;
-}
 
 .del:hover{
     background-color: #b01b1b;
@@ -102,11 +98,12 @@ body {
     text-align: center;
 }
 #container_intro {
-    transform: translateY(5%);
+    transform: translateY(15%);
     width: 75%;
     margin: auto;
     padding: 15px;
     background-color: white;
+    border-radius: 15px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 .p_intro {
@@ -126,6 +123,7 @@ body {
     border-radius: 8px;
     text-align: center;
 }
+
 
 /* ================FORM================ */
 
@@ -392,6 +390,14 @@ body {
 
 
 /* ======STAR ICON======= */
+
+.star-button{
+    position:absolute;
+    left: 80%; 
+    background-color: rgba(255, 255, 255, 0);
+    border:none;
+}
+
 .star-icon {
     cursor: pointer;
     color: grey;
@@ -400,27 +406,12 @@ body {
     color: gold;
 }
 
-.star-button{
-    background-color: white;
-    border:none;
-}
-
-
 /* ======CANDIDATURE====== */
-
 .container-cand {
     max-width: 800px;
     margin: 20px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
 
 .candidature-list {
     display: flex;
@@ -432,68 +423,82 @@ body {
     width: 80%;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.candidatura-item:hover {
+    transform: scale(1.02);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .job-title {
-    font-size: 20px;
+    font-size: 24px;
     color: #007bff;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 .status {
     font-size: 14px;
-    
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
 }
 
-.waiting{
-    color: gold;
+.waiting {
+    color: #ffc107;
 }
 
-.accepted{
+.accepted {
     color: #28a745;
 }
-.dati-candidatura{
-    margin-top: 20px;
-    color: #333;
+
+.dati-candidatura {
+    color: #495057;
+    font-family: 'Lora', serif;
+    line-height: 1.6;
 }
 
 .actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
-.accept-btn{
-    background-color: #2dbd22;
-    color: #fff;
+.accept-btn, .rej-del-btn {
+    font-size: 14px;
+    padding: 10px 20px;
     border: none;
-    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+}
+
+.accept-btn {
+    background-color: #28a745;
+    color: #fff;
 }
 
 .accept-btn:hover {
-    background-color: #76e22e;
+    background-color: #218838;
 }
 
 .rej-del-btn {
     background-color: #dc3545;
     color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .rej-del-btn:hover {
@@ -502,6 +507,8 @@ body {
 
 .no-candidatures {
     text-align: center;
-    color: #666;
+    color: #6c757d;
     margin-top: 20px;
+    font-size: 18px;
+    font-family: 'Lora', serif;
 }

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block nav_content %}
+    <button id="">
+        <a class="a" href="/home">Home</a>
+    </button>
+    <button id="">
+        <a class="a" href="/candidature">Candidature</a>
+    </button>
+    {% if tipo == 'datore' %}
+        <button id="">
+            <a class="a" href="/addOfferta">Aggiungi offerta</a>
+        </button>
+    {% else %}
+        <button id="">
+            <a class="a" href="/preferiti">Preferiti</a>
+        </button>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <table class="job-list">
+            <thead>
+                <tr>
+                    <th>Impiego</th>
+                    <th>Descrizione</th>
+                    <th>Stipendio</th>
+                    <th>Requisiti</th>
+                    <th>Località</th>
+                    <th>Data di necessità</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offerta in offerte %}
+                <tr>
+                    <td>{{ offerta.id_offerta.impiego }}</td>
+                    <td>{{ offerta.id_offerta.descrizione }}</td>
+                    <td>{{ offerta.id_offerta.stipendio }}</td>
+                    <td>{{ offerta.id_offerta.requisiti }}</td>
+                    <td>{{ offerta.id_offerta.luogo }}</td>
+                    <td>{{ offerta.id_offerta.data|date:"d/m/Y" }}</td>
+                    {% if tipo == 'candidato' %}
+                    <td>
+                        <div class="actions">
+                            <form action="{% url 'candidati_2' offerta.id_offerta.id %}" method="post" class="action-form">
+                                {% csrf_token %}
+                                {% if offerta.id_offerta.id in id_cands %}
+                                    <button type="submit" class="del">Rimuovi</button>
+                                {% else %}
+                                    <button type="submit" class="candidati">Candidati</button>
+                                {% endif %}
+                            </form>
+
+                            <form action="{% url 'favourite_2' offerta.id_offerta.id%}" class="action-form">
+                                <button type="submit" class="star-button">
+                                    <i class="fa fa-star star-icon clicked"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not offerte %}
+            <!-- Messaggio se non ci sono offerte -->
+            <div class="no-jobs">Nessuna offerta di lavoro salvata</div>
+        {% endif %}
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const starButtons = document.querySelectorAll(' .star-icon');
+        
+        starButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                this.classList.toggle('clicked');
+                const form = this.closest('form');
+                form.submit();
+            });
+        });
+    });
+
+</script>
+{% endblock %}

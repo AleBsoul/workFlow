@@ -1,24 +1,5 @@
 {% extends "base.html" %}
-{% block nav_content %}
-    <button id="">
-        <a class="a" href="/home">Home</a>
-    </button>
-    <button id="">
-        <a class="a" href="/chats">Chat</a>
-    </button>
-    <button id="">
-        <a class="a" href="/candidature">Candidature</a>
-    </button>
-    {% if tipo == 'datore' %}
-        <button id="">
-            <a class="a" href="/addOfferta">Aggiungi offerta</a>
-        </button>
-    {% else %}
-        <button id="">
-            <a class="a" href="/preferiti">Preferiti</a>
-        </button>
-    {% endif %}
-{% endblock %}
+
 
 {% block content %}
     <div class="container">
@@ -45,18 +26,29 @@
                     <td>{{ offerta.data|date:"d/m/Y" }}</td>
                     {% if tipo == 'candidato' %}
                         <td>
-                            <!-- creare una lista con gli id delle candidature e controllare se questa offerta rientra in quelle -->
-                            <form action="{% url 'candidati' offerta.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="candidati">Candidati</button>
-                            </form>
-                            <form action="{% url 'favourite' offerta.id%}">
-                                <button class="star-button"><i  type = "submit" class="fa fa-star star-icon"></i></button>
-                            </form>
+                            <div class="actions">
+                                <form action="{% url 'candidati' offerta.id %}" method="post" class="action-form">
+                                    {% csrf_token %}
+                                    {% if offerta.id in id_cands %}
+                                        <button type="submit" class="del">Rimuovi</button>
+                                    {% else %}
+                                        <button type="submit" class="candidati">Candidati</button>
+                                    {% endif %}
+                                </form>
+                                <form action="{% url 'favourite' offerta.id%}" class="action-form">
+                                    <button type="submit" class="star-button">
+                                        {% if offerta.id in id_favs %}
+                                            <i class="fa fa-star star-icon clicked"></i>
+                                        {% else %}
+                                            <i class="fa fa-star star-icon"></i>
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     {% else %}
                         <td>
-                            <form action="{% url 'cancella_offerta' offerta.id %}" method="delete">
+                            <form action="{% url 'cancella_offerta' offerta.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="del">Elimina</button>
                             </form>
@@ -67,9 +59,22 @@
             </tbody>
         </table>
         {% if not offerte %}
-            <!-- Messaggio se non ci sono offerte -->
-            <div class="no-jobs">Nessuna offerta di lavoro disponibile al momento.</div>
+            <div class="no-jobs">Nessuna offerta di lavoro</div>
         {% endif %}
     </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const starButtons = document.querySelectorAll('.star-icon');
+        
+        starButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                this.classList.toggle('clicked');
+                const form = this.closest('form');
+                form.submit();
+            });
+        });
+    });
+</script>
 {% endblock %}
