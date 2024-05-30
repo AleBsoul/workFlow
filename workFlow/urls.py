@@ -28,6 +28,7 @@ urlpatterns = [
     path('favourite/<int:offerta_id>/', views.favourite, name='favourite'),
     path('favourite_2/<int:offerta_id>/', views.favourite_2, name='favourite_2'),
     path('cancella_offerta/<int:offerta_id>/', views.cancella_offerta, name='cancella_offerta'),
+    path('get_new_messages/<int:cand_id>/<int:last_message_id>/', views.get_new_messages, name='get_new_messages'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     path('addOfferta/', views.addOfferta, name='addOfferta'),

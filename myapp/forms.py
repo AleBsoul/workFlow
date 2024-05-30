@@ -35,3 +35,6 @@ class formOfferta(forms.Form):
     }),label="data")
     descrizione = forms.CharField(max_length=500, widget=forms.Textarea, label="descrizione")
     requisiti = forms.CharField(max_length=500, widget=forms.Textarea, label="requisiti")
+
+class formChat(forms.Form):
+    messaggio = forms.CharField(max_length=500, widget=forms.Textarea, label="messaggio")

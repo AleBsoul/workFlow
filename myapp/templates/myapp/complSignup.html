@@ -16,7 +16,6 @@
 {% block content %}
 <form class="form" id="complSignupForm" method="post">
     {% csrf_token %}
-    
     <h3>Sign up</h3>
     {{ form.as_p }}
     <button type="submit">Sign up</button>    

@@ -7,6 +7,7 @@ from .models import Utente, Offerta, Candidatura, Messaggio, Preferiti
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 def intro(request):
@@ -26,7 +27,6 @@ def home(request):
                 for offerta in offerte:
                     if offerta.id == cand.id_offerta.id:
                         id_cands.append(cand.id_offerta.id)
-
             id_favs = []
             for fav in favs:
                 for offerta in offerte:
@@ -248,25 +248,72 @@ def preferiti(request):
             return render(request, 'myapp/preferiti.html',  {'tipo':utente.tipo, 'offerte': favs, 'candidature':candidature,'favs':favs, 'id_cands': id_cands})
     else:
         return redirect("login")
-    
+
+
+
+def get_new_messages(request, cand_id, last_message_id):
+    if request.session.get('username'):
+        candidatura = Candidatura.objects.get(id=cand_id)
+        new_messages = Messaggio.objects.filter(
+            id_candidato=candidatura.id_candidato,
+            id_datore=candidatura.id_offerta.id_datore,
+            id__gt=last_message_id
+        ).order_by('id')
+        
+        if new_messages.exists():
+            return JsonResponse({
+                'new_messages': True,
+                'messages': [
+                    {
+                        'id': msg.id,
+                        'contenuto': msg.contenuto,
+                        'id_mittente': msg.id_mittente
+                    } for msg in new_messages
+                ]
+            })
+        else:
+            return JsonResponse({'new_messages': False})
+    else:
+        return JsonResponse({'new_messages': False, 'error': 'Not authenticated'}, status=401)
+
 def chat(request, cand_id):
     if request.session.get('username'):
+        form = formChat()
         username = request.session['username']
         user = User.objects.get(username=username)
         utente = Utente.objects.get(user=user)
         candidatura = Candidatura.objects.get(id=cand_id)
+        
         if utente.tipo == 'candidato':
-            interlocutore = candidatura.id_offerta.id_datore.user.first_name+" "+candidatura.id_offerta.id_datore.user.last_name
+            interlocutore = candidatura.id_offerta.id_datore.user.first_name + " " + candidatura.id_offerta.id_datore.user.last_name
         else:
-            interlocutore = candidatura.id_candidato.user.first_name+" "+candidatura.id_candidato.user.last_name
-        print(interlocutore)
-        return render(request, "myapp/chat.html",{'interlocutore':interlocutore})
-
+            interlocutore = candidatura.id_candidato.user.first_name + " " + candidatura.id_candidato.user.last_name
+        
+        if request.method == "POST":
+            form = formChat(request.POST)
+            if form.is_valid():
+                contenuto = form.cleaned_data['messaggio']
+                messaggio = Messaggio(id_datore=candidatura.id_offerta.id_datore, id_candidato=candidatura.id_candidato, contenuto=contenuto, id_mittente=utente.id)
+                messaggio.save()
+                return redirect('chat', cand_id=cand_id)
+        
+        messaggi = Messaggio.objects.filter(id_candidato=candidatura.id_candidato, id_datore=candidatura.id_offerta.id_datore).order_by('id')
+        last_message_id = messaggi.last().id if messaggi.exists() else 0
+        
+        return render(request, "myapp/chat.html", {
+            'form': form,
+            'interlocutore': interlocutore,
+            'candidatura': candidatura,
+            'messaggi': messaggi,
+            'id': utente.id,
+            'last_message_id': last_message_id
+        })
     else:
         return redirect("login")
 
+
 def index(request):
-    # Utente.objects.all().delete()
+    Messaggio.objects.all().delete()
     # User.objects.all().delete()
     return redirect("intro")
 

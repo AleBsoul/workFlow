@@ -61,7 +61,11 @@
                     {% if  candidatura.stato == 'accettata'%}
                         <form action="{% url 'chat' candidatura.id %}" method="post">
                             {% csrf_token %}
-                            <button class="chat-btn" type="submit"><i class="fa-solid fa-comments"></i></button>
+                            <button class="chat-btn" type="submit">
+                            <i class="fa-solid fa-comments"></i>
+                            <!-- trovare modo su come controllare se ci sono messaggi nuovi al caricamento -->
+                            <!-- <span class="notification"></span> -->
+                            </button>
                         </form>
                     {% endif %}
                 </div>

@@ -12,24 +12,57 @@
     {% endif %}
 {% endblock %}
 
-
 {% block content %}
-    <div id="chat-container">
-        <div id="chat-header">{{ interlocutore }}</div>
-        <div id="message-container">
-            <div class="chat-message">
-                buogiorno
-            </div>
-            <div class="chat-message user">
-                Buongiorno, piacere di conoscerla
-            </div>
-        </div>
-        <div id="chat-input">
-            <form id="chat-form" action>
-                <input type="text" id="message-input" placeholder="Scrivi un messaggio..." />
-                <button type="submit">Invia</button>
-            </form>
-        </div>
+<div id="chat-container">
+    <div id="chat-header">{{ interlocutore }}</div>
+    <div id="message-container" cand="{{ candidatura.id }}" last="{{ last_message_id }}" id2="{{id}}">
+        {% for messaggio in messaggi %} 
+            {% if id == messaggio.id_mittente %}
+                <div class="chat-message user"> {{ messaggio.contenuto }} </div>
+            {% else %}
+                <div class="chat-message"> {{ messaggio.contenuto }} </div>
+            {% endif %}
+        {% endfor %}
     </div>
-{% endblock %}
+    <div id="chat-input">
+        <form id="chat-form" action="{% url 'chat' candidatura.id %}" method="post">
+            {% csrf_token %}
+            <input type="text" id="message-input" placeholder="Scrivi un messaggio..." name="messaggio"/>
+            <button type="submit">Invia</button>
+        </form>
+    </div>
+</div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        const chatContainer = document.getElementById('message-container');
+        const candId = chatContainer.getAttribute('cand');
+        let lastMessageId = chatContainer.getAttribute('last');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        function checkNewMessages() {
+            fetch(`/get_new_messages/${candId}/${lastMessageId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.new_messages) {
+                        data.messages.forEach(msg => {
+                            const messageElement = document.createElement('div');
+                            messageElement.className = 'chat-message ' + (msg.id_mittente == chatContainer.getAttribute("id2") ? 'user' : '');
+                            messageElement.innerText = msg.contenuto;
+                            chatContainer.appendChild(messageElement);
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                            lastMessageId = msg.id;
+                        });
+                    }
+                });
+        }
+        const interval = setInterval(checkNewMessages, 1000);
+
+        window.addEventListener('beforeunload', () => {
+            clearInterval(interval);
+        });
+
+    });
+</script>
+
+{% endblock %}

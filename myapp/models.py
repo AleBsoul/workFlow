@@ -25,7 +25,7 @@ class Messaggio(models.Model):
     id_datore = models.ForeignKey(Utente, on_delete=models.CASCADE , related_name='datore_messaggio', null=False)
     id_candidato = models.ForeignKey(Utente, on_delete=models.CASCADE , related_name='candidato_messaggio',  null=False)
     id_mittente = models.IntegerField(null=True)
-    contenuto = models.CharField(max_length=200 , null=True) 
+    contenuto = models.CharField(max_length=500 , null=True) 
 
 class Candidatura(models.Model):
     id = models.AutoField(primary_key=True)
