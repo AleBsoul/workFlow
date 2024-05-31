@@ -44,7 +44,7 @@
             fetch(`/get_new_messages/${candId}/${lastMessageId}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.new_messages) {
+                    if (data.new_messages && data.candidatura) {
                         data.messages.forEach(msg => {
                             const messageElement = document.createElement('div');
                             messageElement.className = 'chat-message ' + (msg.id_mittente == chatContainer.getAttribute("id2") ? 'user' : '');
@@ -53,6 +53,8 @@
                             chatContainer.scrollTop = chatContainer.scrollHeight;
                             lastMessageId = msg.id;
                         });
+                    }else if(!data.candidatura){
+                        window.location("/candidature")
                     }
                 });
         }
